@@ -4,7 +4,7 @@
  * @Autor: qinjunyi
  * @Date: 2021-02-19 11:18:58
  * @LastEditors: qinjunyi
- * @LastEditTime: 2021-02-19 11:20:01
+ * @LastEditTime: 2021-02-19 18:00:13
  */
 module.exports = {
   printWidth: 80, // 一行的字符数，如果超过会进行换行，默认为80
