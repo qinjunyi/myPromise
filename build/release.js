@@ -4,7 +4,7 @@
  * @Autor: qinjunyi
  * @Date: 2021-02-23 17:40:15
  * @LastEditors: qinjunyi
- * @LastEditTime: 2021-02-24 18:13:51
+ * @LastEditTime: 2021-02-24 18:20:29
  */
 const child_process = require('child_process')
 const fs = require('fs')
@@ -62,7 +62,12 @@ const updatePkgVersion = async (nextVersion) => {
     path.resolve(__dirname, '../package.json'),
     JSON.stringify(pkg)
   )
+  await fs.writeFileSync(
+    path.resolve(__dirname, './package.json'),
+    JSON.stringify(pkg)
+  )
   await run('npx prettier ../package.json --write')
+  await run('npx prettier ./package.json --write')
   logTime('Update package.json version', 'end')
 }
 //TODO:单元测试
@@ -101,7 +106,7 @@ const build = async () => {
 
 const publish = async () => {
   logTime('Publish Npm', 'start')
-  await run('npm publish')
+  await run('npm publish --access public')
   logTime('Publish Npm', 'end')
 }
 
@@ -115,8 +120,8 @@ const main = async () => {
     await genChangelog()
     await build()
     await push(nextVersion)
-    await publish()
     await tag(nextVersion)
+    await publish()
 
     console.log(
       chalk.green(
