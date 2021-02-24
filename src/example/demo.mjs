@@ -4,9 +4,9 @@
  * @Autor: qinjunyi
  * @Date: 2021-02-19 15:14:39
  * @LastEditors: qinjunyi
- * @LastEditTime: 2021-02-19 18:01:35
+ * @LastEditTime: 2021-02-24 15:50:51
  */
-import MyPromise from '../../index.js'
+import MyPromise from '../../dist/main.js'
 
 function test() {
   const promiseTmp = new MyPromise((resolve, reject) => {
