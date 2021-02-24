@@ -4,7 +4,7 @@
  * @Autor: qinjunyi
  * @Date: 2021-02-23 17:40:15
  * @LastEditors: qinjunyi
- * @LastEditTime: 2021-02-23 17:41:49
+ * @LastEditTime: 2021-02-24 18:13:51
  */
 const child_process = require('child_process')
 const fs = require('fs')
@@ -62,26 +62,26 @@ const updatePkgVersion = async (nextVersion) => {
     path.resolve(__dirname, '../package.json'),
     JSON.stringify(pkg)
   )
-  await run('npx prettier package.json --write')
+  await run('npx prettier ../package.json --write')
   logTime('Update package.json version', 'end')
 }
-
-const test = async () => {
-  logTime('Test', 'start')
-  await run(`yarn test:coverage`)
-  logTime('Test', 'end')
-}
+//TODO:单元测试
+// const test = async () => {
+//   logTime('Test', 'start')
+//   await run(`yarn test:coverage`)
+//   logTime('Test', 'end')
+// }
 
 const genChangelog = async () => {
   logTime('Generate CHANGELOG.md', 'start')
-  await run(' npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0')
+  await run(' npx conventional-changelog -p angular -i ../CHANGELOG.md -s -r 0')
   logTime('Generate CHANGELOG.md', 'end')
 }
 
 const push = async (nextVersion) => {
   logTime('Push Git', 'start')
-  await run('git add .')
-  await run(`git commit -m "publish frog-ui@${nextVersion}" -n`)
+  await run('git add ..')
+  await run(`git commit -m "publish MyPromise@${nextVersion}" -n`)
   await run('git push')
   logTime('Push Git', 'end')
 }
@@ -89,7 +89,7 @@ const push = async (nextVersion) => {
 const tag = async (nextVersion) => {
   logTime('Push Git', 'start')
   await run(`git tag v${nextVersion}`)
-  await run(`git push origin tag frog-ui@${nextVersion}`)
+  await run(`git push origin v${nextVersion}`)
   logTime('Push Git Tag', 'end')
 }
 
@@ -110,11 +110,11 @@ const main = async () => {
     const nextVersion = await promptNextVersion()
     const startTime = Date.now()
 
-    await test()
+    //await test()
     await updatePkgVersion(nextVersion)
     await genChangelog()
-    await push(nextVersion)
     await build()
+    await push(nextVersion)
     await publish()
     await tag(nextVersion)
 
